@@ -5,11 +5,11 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>NumberInput</string>
+	<string>SdimMac</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.inputmethod.NumberInput</string>
+	<string>com.yourcompany.inputmethod.SdimMac</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -37,13 +37,13 @@
 	<!--  to deliver text input.                        -->
 	<!--                                                -->
 	<key>InputMethodConnectionName</key>
-	<string>NumberInput_1_Connection</string>
+	<string>SdimMac_1_Connection</string>
 	<!--                                                -->
 	<!-- The next step is to specify an input controller class -->
 	<!-- The InputMethodKit searches your bundle for the key InputMethodServerControllerClass -->
 	<!--                                                -->
     <key>InputMethodServerControllerClass</key>
-    <string>NumberInputController</string>
+    <string>SdimMacController</string>
 	<!--                                                -->
 	<!-- Specify an icon file.  This is used to display your input method in the International Preference Input Menu panel. -->
 	<!--                                                -->

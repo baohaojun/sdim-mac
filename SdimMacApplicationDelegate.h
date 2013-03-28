@@ -3,7 +3,7 @@
 #import <Cocoa/Cocoa.h>
 #import "ConversionEngine.h"
 
-@interface NumberInputApplicationDelegate : NSObject {
+@interface SdimMacApplicationDelegate : NSObject {
 	IBOutlet ConversionEngine*			_conversionEngine;
 }
 

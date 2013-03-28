@@ -9,7 +9,7 @@ const NSString* kPercentMode = @"com.apple.inputmethod.percent";
 const NSString* kScientificMode = @"com.apple.inputmethod.scientific";
 const NSString* kSpelloutMode = @"com.apple.inputmethod.spellout";
 
-@interface NumberInputController : IMKInputController {
+@interface SdimMacController : IMKInputController {
 		
     NSMutableString*				_composedBuffer;
     NSMutableString*				_originalBuffer;

@@ -1,9 +1,9 @@
-#import "NumberInputController.h"
+#import "SdimMacController.h"
 #import "ConversionEngine.h"
-#import "NumberInputApplicationDelegate.h"
+#import "SdimMacApplicationDelegate.h"
 
 
-@implementation NumberInputController
+@implementation SdimMacController
 
 -(BOOL)inputText:(NSString*)string client:(id)sender
 {

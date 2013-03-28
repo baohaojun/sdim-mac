@@ -2,7 +2,7 @@
 #import <Cocoa/Cocoa.h>
 #import <InputMethodKit/InputMethodKit.h>
 
-const NSString* kConnectionName = @"NumberInput_1_Connection";
+const NSString* kConnectionName = @"SdimMac_1_Connection";
 
 IMKServer*			server;
 IMKCandidates*		candidates = nil;
