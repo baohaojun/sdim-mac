@@ -165,6 +165,8 @@
 
 -(void)setValue:(id)value forTag:(unsigned long)tag client:(id)sender
 {
+    NSLog(@"%s:%d:%s: value is %@, tag is %d, sender is %@", __FILE__, __LINE__, __FUNCTION__, value, tag, sender);
+
 	NSString*		newModeString = [(NSString*)value retain];
 	NSNumberFormatterStyle	currentMode = [[[NSApp delegate] conversionEngine] conversionMode];
 	NSNumberFormatterStyle newMode;

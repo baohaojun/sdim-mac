@@ -11,11 +11,11 @@ const NSString* kSpelloutMode = @"com.apple.inputmethod.spellout";
 
 @interface NumberInputController : IMKInputController {
 		
-		NSMutableString*				_composedBuffer;
-		NSMutableString*				_originalBuffer;
-		NSInteger						_insertionIndex;
-		BOOL							_didConvert;
-		id								_currentClient;
+    NSMutableString*				_composedBuffer;
+    NSMutableString*				_originalBuffer;
+    NSInteger                                   _insertionIndex;
+    BOOL                                        _didConvert;
+    id						_currentClient;
 }
 
 -(NSMutableString*)composedBuffer;

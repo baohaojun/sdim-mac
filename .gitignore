@@ -1,1 +1,5 @@
 build/
+out
+project.xcworkspace
+xcuserdata
+DerivedData
