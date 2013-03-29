@@ -30,6 +30,6 @@ const NSString* kSpelloutMode = @"com.apple.inputmethod.spellout";
 -(void)setPreEditStr:(NSString*)string;
 -(NSString*)preEditStr;
 
-- (BOOL)convert:(NSString*)trigger client:(id)sender;
+- (void)showCandidates;
 
 @end
