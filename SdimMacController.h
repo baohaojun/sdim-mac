@@ -16,14 +16,19 @@ const NSString* kSpelloutMode = @"com.apple.inputmethod.spellout";
     NSInteger                                   _insertionIndex;
     BOOL                                        _didConvert;
     id						_currentClient;
+    NSString*                                   _preedit;
 }
 
 -(NSMutableString*)composedBuffer;
 -(void)setComposedBuffer:(NSString*)string;
 
+-(void)commitStr:(NSString*)str;
 -(NSMutableString*)originalBuffer;
 -(void)originalBufferAppend:(NSString*)string client:(id)sender;
 -(void)setOriginalBuffer:(NSString*)string;
+
+-(void)setPreEditStr:(NSString*)string;
+-(NSString*)preEditStr;
 
 - (BOOL)convert:(NSString*)trigger client:(id)sender;
 

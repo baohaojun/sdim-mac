@@ -25,24 +25,19 @@ int main(int argc, char *argv[])
 	dup2(fd, 1);
 	dup2(fd, 2);
     }
-    printf("hello world\n");
+    printf("hello sdim-mac\n");
     fflush(stdout);
     
     NSString*       identifier;
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
     identifier = [[NSBundle mainBundle] bundleIdentifier];
     server = [[IMKServer alloc] initWithName:(NSString*)kConnectionName bundleIdentifier:[[NSBundle mainBundle] bundleIdentifier]];
 	
-	[NSBundle loadNibNamed:@"MainMenu" owner:[NSApplication sharedApplication]];
+    [NSBundle loadNibNamed:@"MainMenu" owner:[NSApplication sharedApplication]];
 	
-	candidates = [[IMKCandidates alloc] initWithServer:server panelType:kIMKSingleColumnScrollingCandidatePanel];
+    candidates = [[IMKCandidates alloc] initWithServer:server panelType:kIMKSingleColumnScrollingCandidatePanel];
 	
-	[[NSApplication sharedApplication] run];
+    [[NSApplication sharedApplication] run];
 	
-	[server release];
-	[candidates release];
-	
-    [pool release];
     return 0;
 }

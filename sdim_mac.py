@@ -54,7 +54,7 @@ class KeyEvent:
         self.mask = state
         self.name = chars
         
-        if self.name:
+        if self.name and not (len(self.name) == 1 and ord(self.name) < ord(' ')):
             if self.name == ' ':
                 self.name = 'space'
             else:
@@ -123,13 +123,15 @@ class tabengine ():
     def _update_preedit (self):
         '''Update Preedit String in UI'''
         _str = self._preedit_str
-        sdim_ui.update_preedit_text(_str.decode('utf-8'))
+        print "update preedit: str is %s\n" % _str
+        sys.stdout.flush()
+        sdim_ui.update_preedit_text(_str)
     
     def _update_aux (self):
         '''Update Aux String in UI'''
         _aux = self._aux_str
         if _aux:
-            sdim_ui.update_auxiliary_text(_aux.decode('utf-8'))
+            sdim_ui.update_auxiliary_text(_aux)
         else:
             sdim_ui.hide_auxiliary_text()
 
@@ -146,7 +148,7 @@ class tabengine ():
         sdim_ui.clear_lookup_table()
 
         for cand in _cands:
-            sdim_ui.append_candidate(cand.decode('utf-8'))
+            sdim_ui.append_candidate(cand)
             pass
 
         index = int(self._cand_idx) % 10
@@ -165,13 +167,15 @@ class tabengine ():
             return
         commit = self._commit_str
         self._commit_str = ''
-        sdim_ui.commit_text(commit.decode('utf-8'))
+        sdim_ui.commit_text(commit)
 
     def process_key_event(self, keyval, chars, state):
         '''Process Key Events
         Key Events include Key Press and Key Release,
         modifier means Key Pressed
         '''
+        print "keyval is %d,\n chars is %s,\n state is %d\n" % (keyval, chars, state);
+        sys.stdout.flush()
         key = KeyEvent(keyval, chars, state)
         # ignore NumLock mask
 
@@ -181,6 +185,8 @@ class tabengine ():
     def _process_key_event (self, key):
         '''Internal method to process key event'''
         key = str(key)
+        print "key is %s\n" % key
+        sys.stdout.flush();
         if key == '':
             return False
         if self._preedit_str == '' and len(key) != 1:

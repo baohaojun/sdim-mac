@@ -6,38 +6,10 @@
 
 SdimMacController* theController;
 PyObject* myProcessEvent;
-
-static PyObject* processEventResults(PyObject* self, PyObject* pArgs)
-{
+id theSender;
 
 
-    static int k;
-    NSLog(@"%s:%d:%s: k is %d", __FILE__, __LINE__, __FUNCTION__, k);
-    int *n = NULL;
-    char *str = NULL;
-    if (!PyArg_ParseTuple(pArgs, "s", &str)) {
-	NSLog(@"%s:%d:%s: failed", __FILE__, __LINE__, __FUNCTION__);
-	return NULL;
-    }
-    
-    NSLog(@"%s:%d:%s: str is %s", __FILE__, __LINE__, __FUNCTION__, str);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-
-    // 126:        sdim_ui.update_preedit_text(_str.decode('utf-8'))
-    // 132:            sdim_ui.update_auxiliary_text(_aux.decode('utf-8'))
-    // 134:            sdim_ui.hide_auxiliary_text()
-    // 140:            sdim_ui.hide_lookup_table()
-    // 146:        sdim_ui.clear_lookup_table()
-    // 149:            sdim_ui.append_candidate(cand.decode('utf-8'))
-    // 153:        sdim_ui.set_cursor_pos_in_current_page(index)
-    // 154:        sdim_ui.update_lookup_table()
-    // 168:        sdim_ui.commit_text(commit.decode('utf-8'))
-
-
-/* start code-generator 
+/* startx code-generator 
    expand <<EOF
    $(perl -ne 'if (m/sdimUiMethods.*=/ .. m/null, null, 0/i) {
        m/\{"(.*?)",/ or next;
@@ -48,50 +20,60 @@ static PyObject* processEventResults(PyObject* self, PyObject* pArgs)
        printf "%s\n", "}";
    }' ~/src/github/sdim-mac/SdimMacController.m)
 EOF
-   end code-generator */
+   endx code-generator */
 // start generated code
 static PyObject* update_preedit_text(PyObject* self, PyObject* pArgs) {
-    NSLog(@"%s:%d:%s: ", __FILE__, __LINE__, __FUNCTION__);
+    char *preedit = NULL;
+    if (!PyArg_ParseTuple(pArgs, "s", &preedit)) {
+	NSLog(@"%s:%d:%s: parse failed", __FILE__, __LINE__, __FUNCTION__);
+	return NULL;
+    }
+
+    NSString* preEdit = [NSString stringWithUTF8String:preedit];
+
+    [theController setPreEditStr:preEdit];
+    [theSender setMarkedText:preEdit selectionRange:NSMakeRange(0, [preEdit length]) replacementRange:NSMakeRange(NSNotFound, NSNotFound)];
     Py_INCREF(Py_None);
     return Py_None;
 }
 static PyObject* update_auxiliary_text(PyObject* self, PyObject* pArgs) {
-    NSLog(@"%s:%d:%s: ", __FILE__, __LINE__, __FUNCTION__);
     Py_INCREF(Py_None);
     return Py_None;
 }
 static PyObject* hide_auxiliary_text(PyObject* self, PyObject* pArgs) {
-    NSLog(@"%s:%d:%s: ", __FILE__, __LINE__, __FUNCTION__);
     Py_INCREF(Py_None);
     return Py_None;
 }
 static PyObject* hide_lookup_table(PyObject* self, PyObject* pArgs) {
-    NSLog(@"%s:%d:%s: ", __FILE__, __LINE__, __FUNCTION__);
     Py_INCREF(Py_None);
     return Py_None;
 }
 static PyObject* clear_lookup_table(PyObject* self, PyObject* pArgs) {
-    NSLog(@"%s:%d:%s: ", __FILE__, __LINE__, __FUNCTION__);
     Py_INCREF(Py_None);
     return Py_None;
 }
 static PyObject* append_candidate(PyObject* self, PyObject* pArgs) {
-    NSLog(@"%s:%d:%s: ", __FILE__, __LINE__, __FUNCTION__);
     Py_INCREF(Py_None);
     return Py_None;
 }
 static PyObject* set_cursor_pos_in_current_page(PyObject* self, PyObject* pArgs) {
-    NSLog(@"%s:%d:%s: ", __FILE__, __LINE__, __FUNCTION__);
     Py_INCREF(Py_None);
     return Py_None;
 }
 static PyObject* update_lookup_table(PyObject* self, PyObject* pArgs) {
-    NSLog(@"%s:%d:%s: ", __FILE__, __LINE__, __FUNCTION__);
     Py_INCREF(Py_None);
     return Py_None;
 }
 static PyObject* commit_text(PyObject* self, PyObject* pArgs) {
-    NSLog(@"%s:%d:%s: ", __FILE__, __LINE__, __FUNCTION__);
+
+    char *commit = NULL;
+    if (!PyArg_ParseTuple(pArgs, "s", &commit)) {
+	NSLog(@"%s:%d:%s: parse failed", __FILE__, __LINE__, __FUNCTION__);
+	return NULL;
+    }
+
+    [theController commitStr:[NSString stringWithUTF8String:commit]];
+	
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -111,46 +93,60 @@ static PyMethodDef sdimUiMethods[] = {
 	{NULL, NULL, 0, NULL}
 };
 
+void pyProcessEvent(int keyCode, const char* chars, int mask) {
+    PyObject* args = PyTuple_Pack(3, PyInt_FromLong(keyCode), PyString_FromString(chars), PyInt_FromLong(mask));
+    PyObject_CallObject(myProcessEvent, args);
+}
+
 @implementation SdimMacController
 
 -(BOOL)handleEvent:(NSEvent*)event client:(id)sender
 {
 
+    theSender = sender;
     unsigned int mask = [event modifierFlags];
     NSString* chars = [event characters];
     int keyCode = [event keyCode];
 
     
-    
-    PyObject* args = PyTuple_Pack(3, PyInt_FromLong(keyCode), PyString_FromString([chars UTF8String]), PyInt_FromLong(mask));
-    PyObject* myResult = PyObject_CallObject(myProcessEvent, args);
 
-    NSLog(@"%@", event);
+    if (isgraph([chars UTF8String][0])) {
+	printf("isgraph keycode is %d, chars is %s, mask is %d\n", keyCode, [chars UTF8String], mask);
+	fflush(stdout);
+    } else {
+	printf("not graph keycode is %d, char is %d, mask is %d\n", keyCode, [chars UTF8String][0], mask);
+	if (_preedit) {
+	    NSLog(@"%s:%d:%s: _preedit is %@\n", __FILE__, __LINE__, __FUNCTION__, _preedit);
+	} else {
+	    NSLog(@"%s:%d:%s: _preedit is 0", __FILE__, __LINE__, __FUNCTION__);
+	}
+
+
+	fflush(stdout);
+	if (! _preedit || [_preedit length] == 0) {
+	    NSLog(@"%s:%d:%s: ", __FILE__, __LINE__, __FUNCTION__);
+	    if (!_preedit) {
+		NSLog(@"%s:%d:%s: not _preedit", __FILE__, __LINE__, __FUNCTION__);
+	    } else {
+		NSLog(@"%s:%d:%s: _preedit is %@\n", __FILE__, __LINE__, __FUNCTION__, _preedit);
+	    }
+
+	    return NO;
+	}
+	NSLog(@"%s:%d:%s: ", __FILE__, __LINE__, __FUNCTION__);
+    }
+    fflush(stdout);
+    pyProcessEvent(keyCode, [chars UTF8String], mask);
+    //NSLog(@"%@", event);
     return YES;
 }
 
-// -(BOOL)inputText:(NSString*)string client:(id)sender
-// {
-//     NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
-
-// 		BOOL					inputHandled = NO;
-// 		NSScanner*				scanner = [NSScanner scannerWithString:string];
-// 		NSDecimal				decimalValue;
-// 		BOOL					isDecimal = [scanner scanDecimal:&decimalValue];
-
-// 		if ( isDecimal ) {
-// 			[self originalBufferAppend:string client:sender];
-// 			inputHandled = YES;
-// 		}
-// 		else {
-// 			inputHandled = [self convert:string client:sender];
-// 		}
-//         return inputHandled;
-// }
+-(void)commitStr:(NSString*)str {
+    [theSender insertText:str replacementRange:NSMakeRange(NSNotFound, NSNotFound)];
+}
 
 -(void)commitComposition:(id)sender 
 {
-    NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
 
 	NSString*		text = [self composedBuffer];
 
@@ -168,7 +164,6 @@ static PyMethodDef sdimUiMethods[] = {
 
 -(NSMutableString*)composedBuffer;
 {
-    NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
 
 	if ( _composedBuffer == nil ) {
 		_composedBuffer = [[NSMutableString alloc] init];
@@ -178,7 +173,6 @@ static PyMethodDef sdimUiMethods[] = {
 
 -(void)setComposedBuffer:(NSString*)string
 {
-    NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
 
 	NSMutableString*		buffer = [self composedBuffer];
 	[buffer setString:string];
@@ -187,7 +181,6 @@ static PyMethodDef sdimUiMethods[] = {
 
 -(NSMutableString*)originalBuffer
 {
-    NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
 
 	if ( _originalBuffer == nil ) {
 		_originalBuffer = [[NSMutableString alloc] init];
@@ -197,7 +190,6 @@ static PyMethodDef sdimUiMethods[] = {
 
 -(void)originalBufferAppend:(NSString*)string client:(id)sender
 {
-    NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
 
 	NSMutableString*		buffer = [self originalBuffer];
 	[buffer appendString: string];
@@ -207,44 +199,49 @@ static PyMethodDef sdimUiMethods[] = {
 
 -(void)setOriginalBuffer:(NSString*)string
 {
-    NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
 
 	NSMutableString*		buffer = [self originalBuffer];
 	[buffer setString:string];
 }
 
--(BOOL)didCommandBySelector:(SEL)aSelector client:(id)sender
-{
-    NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
+// -(BOOL)didCommandBySelector:(SEL)aSelector client:(id)sender
+// {
 
-    if ([self respondsToSelector:aSelector]) {
+//     if ([self respondsToSelector:aSelector]) {
 		
-		NSString*		bufferedText = [self originalBuffer];
+// 	NSString*		bufferedText = [self originalBuffer];
 		
-		if ( bufferedText && [bufferedText length] > 0 ) {
-			if (aSelector == @selector(insertNewline:) ||
-				aSelector == @selector(deleteBackward:) ) {
-					[self performSelector:aSelector withObject:sender];
-					return YES; 
-			}
-		}
+// 	if ( bufferedText && [bufferedText length] > 0 ) {
+// 	    if (aSelector == @selector(insertNewline:) ||
+// 		aSelector == @selector(deleteBackward:) ) {
 		
-    }
+// 		NSLog(@"%s:%d:%s: preEditStr is %@", __FILE__, __LINE__, __FUNCTION__, [self preEditStr]);
+
+// 		if ([[self preEditStr] length] == 0) {
+// 		    NSLog(@"%s:%d:%s: length is 0", __FILE__, __LINE__, __FUNCTION__);
+
+// 		    return NO;
+// 		}
+			    
+// 		[self performSelector:aSelector withObject:sender];
+// 		return YES;
+// 	    }
+// 	}
+		
+//     }
 	
-	return NO;
-}
+//     return NO;
+// }
 
 - (void)insertNewline:(id)sender
 {
-    NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
+    NSLog(@"%s:%d:%s: ", __FILE__, __LINE__, __FUNCTION__);
 
-	[self commitComposition:sender];
-	
+    pyProcessEvent(0, "return", 0);
 }
 
 - (void)deleteBackward:(id)sender
 {
-    NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
 
 	NSMutableString*		originalText = [self originalBuffer];
 	NSString*				convertedString;
@@ -260,7 +257,6 @@ static PyMethodDef sdimUiMethods[] = {
 
 - (BOOL)convert:(NSString*)trigger client:(id)sender
 {
-    NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
 
 	NSString*				originalText = [self originalBuffer];
 	NSString*				convertedString = [self composedBuffer];
@@ -312,7 +308,6 @@ static PyMethodDef sdimUiMethods[] = {
 -(void) initPython {
 
 
-    NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
     theController = self;
 
     Py_SetProgramName("Sdim Mac");
@@ -354,10 +349,8 @@ EOF
     
 }
 
--(void)setValue:(id)value forTag:(unsigned long)tag client:(id)sender
+-(void)setValue:(id)value forTag:(long)tag client:(id)sender
 {
-
-    NSLog(@"%s:%d:%s: value is %@, tag is %d, sender is %@", __FILE__, __LINE__, __FUNCTION__, value, tag, sender);
 
     if (! theController) {
 	[self initPython];
@@ -365,7 +358,7 @@ EOF
 
     //PyRun_SimpleString("sdim_ui.processEventResults('6')\n");
 
-	NSString*		newModeString = [(NSString*)value retain];
+	NSString*		newModeString = (NSString*)value;
 	NSNumberFormatterStyle	currentMode = [[[NSApp delegate] conversionEngine] conversionMode];
 	NSNumberFormatterStyle newMode;
 	
@@ -392,7 +385,6 @@ EOF
 
 - (NSArray*)candidates:(id)sender
 {
-    NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
 
     NSMutableArray*			theCandidates = [NSMutableArray array];
 	ConversionEngine*		engine = [[NSApp delegate] conversionEngine];
@@ -412,7 +404,6 @@ EOF
 
 - (void)candidateSelectionChanged:(NSAttributedString*)candidateString
 {
-    NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
 
 	[_currentClient setMarkedText:[candidateString string] selectionRange:NSMakeRange(_insertionIndex, 0) replacementRange:NSMakeRange(NSNotFound,NSNotFound)];
 	_insertionIndex = [candidateString length];
@@ -420,21 +411,20 @@ EOF
 
 - (void)candidateSelected:(NSAttributedString*)candidateString
 {
-    NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
 
 	[self setComposedBuffer:[candidateString string]];
 	[self commitComposition:_currentClient];
 }
 
 
--(void)dealloc 
-{
-    NSLog(@"%s:%d:%s: hello", __FILE__, __LINE__, __FUNCTION__);
 
-	[_composedBuffer release];
-	[_originalBuffer release];
-	[super dealloc];
+-(void)setPreEditStr:(NSString*)string {
+    NSLog(@"%s:%d:%s: preedit set to '%@'\n", __FILE__, __LINE__, __FUNCTION__, string);
+    _preedit = string;
 }
 
+-(NSString*)preEditStr {
+    return _preedit;
+}
  
 @end

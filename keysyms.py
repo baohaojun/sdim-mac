@@ -67,7 +67,7 @@ key_name_code_map = {
     "return"         : 0x24,
     "tab"            : 0x30,
     "space"          : 0x31,
-    "delete"         : 0x33,
+    "backspace"      : 0x33,
     "escape"         : 0x35,
     "command"        : 0x37,
     "shift"          : 0x38,
