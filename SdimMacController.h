@@ -23,9 +23,6 @@ const NSString* kSpelloutMode = @"com.apple.inputmethod.spellout";
 -(void)setComposedBuffer:(NSString*)string;
 
 -(void)commitStr:(NSString*)str;
--(NSMutableString*)originalBuffer;
--(void)originalBufferAppend:(NSString*)string client:(id)sender;
--(void)setOriginalBuffer:(NSString*)string;
 
 -(void)setPreEditStr:(NSString*)string;
 -(NSString*)preEditStr;

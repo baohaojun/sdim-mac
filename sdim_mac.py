@@ -100,7 +100,6 @@ class tabengine ():
         # self._lookup_table = ibus.LookupTable (tabengine._page_size)
 
         self._name = 'sdim'
-        print 'name is', self._name
         self._config_section = "engine/%s" % self._name
         
         # config module
@@ -123,8 +122,6 @@ class tabengine ():
     def _update_preedit (self):
         '''Update Preedit String in UI'''
         _str = self._preedit_str
-        print "update preedit: str is %s\n" % _str
-        sys.stdout.flush()
         sdim_ui.update_preedit_text(_str)
     
     def _update_aux (self):
@@ -174,8 +171,6 @@ class tabengine ():
         Key Events include Key Press and Key Release,
         modifier means Key Pressed
         '''
-        print "keyval is %d,\n chars is %s,\n state is %d\n" % (keyval, chars, state);
-        sys.stdout.flush()
         key = KeyEvent(keyval, chars, state)
         # ignore NumLock mask
 
@@ -185,8 +180,6 @@ class tabengine ():
     def _process_key_event (self, key):
         '''Internal method to process key event'''
         key = str(key)
-        print "key is %s\n" % key
-        sys.stdout.flush();
         if key == '':
             return False
         if self._preedit_str == '' and len(key) != 1:
@@ -206,8 +199,6 @@ class tabengine ():
             
             if line.find('commit: ') == 0:
                 self._commit_str = line[len('commit: '):]
-                print "commit is %s" % self._commit_str
-                sys.stdout.flush()
             
             elif line.find('hint: ') == 0:
                 self._aux_str = line[len('hint: '):]

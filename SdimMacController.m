@@ -250,9 +250,13 @@ EOF
 
 - (void)candidateSelected:(NSAttributedString*)candidateString
 {
+    NSLog(@"%s:%d:%s: ", __FILE__, __LINE__, __FUNCTION__);
+    [self commitComposition:theSender];
+}
 
-	[self setComposedBuffer:[candidateString string]];
-	[self commitComposition:theSender];
+-(void)commitComposition:(id)sender 
+{
+	[sender insertText:_preedit replacementRange:NSMakeRange(NSNotFound, NSNotFound)];
 }
 
 
