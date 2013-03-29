@@ -3,3 +3,4 @@ out
 project.xcworkspace
 xcuserdata
 DerivedData
+*.pyc
