@@ -16,7 +16,6 @@ const NSString* kSpelloutMode = @"com.apple.inputmethod.spellout";
     NSInteger                                   _insertionIndex;
     BOOL                                        _didConvert;
     id						_currentClient;
-    NSString*                                   _preedit;
 }
 
 -(NSMutableString*)composedBuffer;
@@ -26,7 +25,5 @@ const NSString* kSpelloutMode = @"com.apple.inputmethod.spellout";
 
 -(void)setPreEditStr:(NSString*)string;
 -(NSString*)preEditStr;
-
-- (void)showCandidates;
 
 @end

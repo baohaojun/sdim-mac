@@ -7,6 +7,7 @@
 SdimMacController* theController;
 PyObject* myProcessEvent;
 id theSender;
+NSString* thePreEdit;
 
 
 /* startx code-generator 
@@ -31,7 +32,7 @@ static PyObject* update_preedit_text(PyObject* self, PyObject* pArgs) {
 
     NSString* preEdit = [NSString stringWithUTF8String:preedit];
 
-    [theController setPreEditStr:preEdit];
+    thePreEdit = preEdit;
     [theSender setMarkedText:preEdit selectionRange:NSMakeRange(0, [preEdit length]) replacementRange:NSMakeRange(NSNotFound, NSNotFound)];
     Py_INCREF(Py_None);
     return Py_None;
@@ -49,22 +50,11 @@ static PyObject* hide_lookup_table(PyObject* self, PyObject* pArgs) {
     return Py_None;
 }
 
-NSMutableArray* theCandidates;
 static PyObject* clear_lookup_table(PyObject* self, PyObject* pArgs) {
-    [theCandidates removeAllObjects];
     Py_INCREF(Py_None);
     return Py_None;
 }
 static PyObject* append_candidate(PyObject* self, PyObject* pArgs) {
-    char * cand = NULL;
-    if (!PyArg_ParseTuple(pArgs, "s", &cand)) {
-	NSLog(@"%s:%d:%s: parse failed", __FILE__, __LINE__, __FUNCTION__);
-	return NULL;
-    }
-    
-    NSString* candStr = [NSString stringWithUTF8String:cand];
-    [theCandidates addObject:candStr];
-
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -73,7 +63,6 @@ static PyObject* set_cursor_pos_in_current_page(PyObject* self, PyObject* pArgs)
     return Py_None;
 }
 static PyObject* update_lookup_table(PyObject* self, PyObject* pArgs) {
-    [theController showCandidates];
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -122,7 +111,8 @@ void pyProcessEvent(int keyCode, const char* chars, int mask) {
     int keyCode = [event keyCode];
 
     if (! isgraph([chars UTF8String][0])) {
-	if (! _preedit || [_preedit length] == 0) {
+	if (! thePreEdit || [thePreEdit length] == 0) {
+	    NSLog(@"%s:%d:%s: should not handle event\n", __FILE__, __LINE__, __FUNCTION__);
 	    return NO;
 	}
     }
@@ -151,16 +141,8 @@ void pyProcessEvent(int keyCode, const char* chars, int mask) {
 	[buffer setString:string];
 }
 
-- (void)showCandidates {
-    extern IMKCandidates*		candidates;
-    [candidates setPanelType:kIMKSingleRowSteppingCandidatePanel];
-    [candidates updateCandidates];
-    [candidates show:kIMKLocateCandidatesBelowHint];
-}
-
 -(void) initPython {
 
-    theCandidates = [NSMutableArray array];
     theController = self;
 
     Py_SetProgramName("Sdim Mac");
@@ -236,38 +218,4 @@ EOF
 	}
 }
 
-- (NSArray*)candidates:(id)sender
-{
-    return theCandidates;
-}
-
-- (void)candidateSelectionChanged:(NSAttributedString*)candidateString
-{
-
-	[theSender setMarkedText:[candidateString string] selectionRange:NSMakeRange(_insertionIndex, 0) replacementRange:NSMakeRange(NSNotFound,NSNotFound)];
-	_insertionIndex = [candidateString length];
-}
-
-- (void)candidateSelected:(NSAttributedString*)candidateString
-{
-    NSLog(@"%s:%d:%s: ", __FILE__, __LINE__, __FUNCTION__);
-    [self commitComposition:theSender];
-}
-
--(void)commitComposition:(id)sender 
-{
-	[sender insertText:_preedit replacementRange:NSMakeRange(NSNotFound, NSNotFound)];
-}
-
-
-
--(void)setPreEditStr:(NSString*)string {
-    NSLog(@"%s:%d:%s: preedit set to '%@'\n", __FILE__, __LINE__, __FUNCTION__, string);
-    _preedit = string;
-}
-
--(NSString*)preEditStr {
-    return _preedit;
-}
- 
 @end

@@ -8,8 +8,6 @@
 const NSString* kConnectionName = @"SdimMac_1_Connection";
 
 IMKServer*			server;
-IMKCandidates*		candidates = nil;
-
 
 int main(int argc, char *argv[])
 {
@@ -34,8 +32,6 @@ int main(int argc, char *argv[])
     server = [[IMKServer alloc] initWithName:(NSString*)kConnectionName bundleIdentifier:[[NSBundle mainBundle] bundleIdentifier]];
 	
     [NSBundle loadNibNamed:@"MainMenu" owner:[NSApplication sharedApplication]];
-	
-    candidates = [[IMKCandidates alloc] initWithServer:server panelType:kIMKSingleColumnScrollingCandidatePanel];
 	
     [[NSApplication sharedApplication] run];
 	
