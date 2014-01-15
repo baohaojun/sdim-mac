@@ -1,7 +1,7 @@
 #import "SdimMacController.h"
 #import "ConversionEngine.h"
 #import "SdimMacApplicationDelegate.h"
-#include "Python/Python.h"
+#include <Python.h>
 #include <stdlib.h>
 
 SdimMacController* theController;
