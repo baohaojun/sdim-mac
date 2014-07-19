@@ -93,7 +93,7 @@ class tabengine ():
 
     def __init__ (self):
         self.sock = socket(AF_INET, SOCK_STREAM)
-        self.sock.connect(("localhost", 12345))
+        self.sock.connect(("localhost", 31415))
         self.sock = self.sock.makefile("rwb", 0)
 
         self.clear_data()
