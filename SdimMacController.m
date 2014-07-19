@@ -200,19 +200,7 @@ EOF
 	if ( [newModeString isEqual:kDecimalMode] ) {
 		newMode = NSNumberFormatterDecimalStyle;
 	}
-	else if ( [newModeString isEqual:kCurrencyMode] ) {
-		newMode = NSNumberFormatterCurrencyStyle;
-	}
-	else if ( [newModeString isEqual:kPercentMode] ) {
-		newMode = NSNumberFormatterPercentStyle;
-	}
-	else if ( [newModeString isEqual:kScientificMode] ) {
-		newMode = NSNumberFormatterScientificStyle;
-	}
-	else if ( [newModeString isEqual:kSpelloutMode] ) {
-		newMode = NSNumberFormatterSpellOutStyle;
-	}
-	
+
 	if ( currentMode != newMode ) {
 		[[[NSApp delegate] conversionEngine] setConversionMode:newMode];
 	}

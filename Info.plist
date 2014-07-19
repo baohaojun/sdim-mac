@@ -48,7 +48,7 @@
 	<!-- Specify an icon file.  This is used to display your input method in the International Preference Input Menu panel. -->
 	<!--                                                -->
 	<key>tsInputMethodIconFileKey</key>
-	<string>nine.tiff</string>
+	<string>Sdim.tiff</string>
 	<!--                                                -->
 	<!-- The next required entry in the Info.plist XML file is your input method's character repertoire.  -->
 	<!-- This is an array of ISO language codes         -->
@@ -64,10 +64,10 @@
 	<dict>
 		<key>tsInputModeListKey</key>
 		<dict>
-            <key>com.apple.inputmethod.decimal</key>
+            <key>com.apple.inputmethod.sdim</key>
 			<dict>
 				<key>tsInputModeAlternateMenuIconFileKey</key>
-				<string>Decimal.tiff</string>
+				<string>Sdim.tiff</string>
 				<key>tsInputModeDefaultStateKey</key>
 				<true/>
 				<key>tsInputModeIsVisibleKey</key>
@@ -77,93 +77,9 @@
 				<key>tsInputModeKeyEquivalentModifiersKey</key>
 				<integer>4608</integer>
 				<key>tsInputModeMenuIconFileKey</key>
-				<string>Decimal.tiff</string>
+				<string>Sdim.tiff</string>
 				<key>tsInputModePaletteIconFileKey</key>
-				<string>Decimal.tiff</string>
-				<key>tsInputModePrimaryInScriptKey</key>
-				<true/>
-				<key>tsInputModeScriptKey</key>
-				<string>smUnicodeScript</string>
-			</dict>
-            <key>com.apple.inputmethod.currency</key>
-			<dict>
-				<key>tsInputModeAlternateMenuIconFileKey</key>
-				<string>currency.tiff</string>
-				<key>tsInputModeDefaultStateKey</key>
-				<true/>
-				<key>tsInputModeIsVisibleKey</key>
-				<true/>
-				<key>tsInputModeKeyEquivalentKey</key>
-				<string>C</string>
-				<key>tsInputModeKeyEquivalentModifiersKey</key>
-				<integer>4608</integer>
-				<key>tsInputModeMenuIconFileKey</key>
-				<string>currency.tiff</string>
-				<key>tsInputModePaletteIconFileKey</key>
-				<string>currency.tiff</string>
-				<key>tsInputModePrimaryInScriptKey</key>
-				<true/>
-				<key>tsInputModeScriptKey</key>
-				<string>smUnicodeScript</string>
-			</dict>
-            <key>com.apple.inputmethod.percent</key>
-			<dict>
-				<key>tsInputModeAlternateMenuIconFileKey</key>
-				<string>percent.tiff</string>
-				<key>tsInputModeDefaultStateKey</key>
-				<true/>
-				<key>tsInputModeIsVisibleKey</key>
-				<true/>
-				<key>tsInputModeKeyEquivalentKey</key>
-				<string>P</string>
-				<key>tsInputModeKeyEquivalentModifiersKey</key>
-				<integer>4608</integer>
-				<key>tsInputModeMenuIconFileKey</key>
-				<string>percent.tiff</string>
-				<key>tsInputModePaletteIconFileKey</key>
-				<string>percent.tiff</string>
-				<key>tsInputModePrimaryInScriptKey</key>
-				<true/>
-				<key>tsInputModeScriptKey</key>
-				<string>smUnicodeScript</string>
-			</dict>
-             <key>com.apple.inputmethod.scientific</key>
-			<dict>
-				<key>tsInputModeAlternateMenuIconFileKey</key>
-				<string>scientific.tiff</string>
-				<key>tsInputModeDefaultStateKey</key>
-				<true/>
-				<key>tsInputModeIsVisibleKey</key>
-				<true/>
-				<key>tsInputModeKeyEquivalentKey</key>
-				<string>S</string>
-				<key>tsInputModeKeyEquivalentModifiersKey</key>
-				<integer>4608</integer>
-				<key>tsInputModeMenuIconFileKey</key>
-				<string>scientific.tiff</string>
-				<key>tsInputModePaletteIconFileKey</key>
-				<string>scientific.tiff</string>
-				<key>tsInputModePrimaryInScriptKey</key>
-				<true/>
-				<key>tsInputModeScriptKey</key>
-				<string>smUnicodeScript</string>
-			</dict>
-			<key>com.apple.inputmethod.spellout</key>
-			<dict>
-				<key>tsInputModeAlternateMenuIconFileKey</key>
-				<string>spellout.tiff</string>
-				<key>tsInputModeDefaultStateKey</key>
-				<true/>
-				<key>tsInputModeIsVisibleKey</key>
-				<true/>
-				<key>tsInputModeKeyEquivalentKey</key>
-				<string></string>
-				<key>tsInputModeKeyEquivalentModifiersKey</key>
-				<integer>0</integer>
-				<key>tsInputModeMenuIconFileKey</key>
-				<string>spellout.tiff</string>
-				<key>tsInputModePaletteIconFileKey</key>
-				<string>spellout.tiff</string>
+				<string>Sdim.tiff</string>
 				<key>tsInputModePrimaryInScriptKey</key>
 				<true/>
 				<key>tsInputModeScriptKey</key>
@@ -172,11 +88,7 @@
 		</dict>
 		<key>tsVisibleInputModeOrderedArrayKey</key>
 		<array>
-			<string>com.apple.inputmethod.decimal</string>
-            <string>com.apple.inputmethod.currency</string>
-            <string>com.apple.inputmethod.percent</string>
-            <string>com.apple.inputmethod.scientific</string>
-			<string>com.apple.inputmethod.spellout</string>
+		  <string>com.apple.inputmethod.sdim</string>
             <!-- Step 6 -->
 		</array>
 	</dict>

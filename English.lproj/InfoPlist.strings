@@ -4,12 +4,7 @@ NSHumanReadableCopyright = "© Apple Computer Inc., 2006";
 
 /* Include your mode strings here.  See TN2128 for details. */
 
-com.apple.inputmethod.decimal = "Sdim";
-com.apple.inputmethod.currency = "Currency";
-com.apple.inputmethod.percent = "Percent";
-com.apple.inputmethod.scientific = "Scientific";
-com.apple.inputmethod.spellout = "Spellout";
-
+com.apple.inputmethod.sdim = "影舞笔";
 
 CFBundleName = "SdimMac";
 CFBundleDisplayName = "SdimMac";

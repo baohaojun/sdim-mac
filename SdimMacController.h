@@ -3,11 +3,7 @@
 #import <Cocoa/Cocoa.h>
 #import <InputMethodKit/InputMethodKit.h>
 
-const NSString* kDecimalMode = @"com.apple.inputmethod.decimal";
-const NSString* kCurrencyMode = @"com.apple.inputmethod.currency";
-const NSString* kPercentMode = @"com.apple.inputmethod.percent";
-const NSString* kScientificMode = @"com.apple.inputmethod.scientific";
-const NSString* kSpelloutMode = @"com.apple.inputmethod.spellout";
+const NSString* kDecimalMode = @"com.apple.inputmethod.sdim";
 
 @interface SdimMacController : IMKInputController {
 		
